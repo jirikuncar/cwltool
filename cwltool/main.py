@@ -260,9 +260,22 @@ def single_job_executor(t,  # type: Process
     final_output = []
     final_status = []
 
+    import renga
+    client = renga.from_env()
+
+    bucket = client.buckets.create(str(t))
+
     def output_callback(out, processStatus):
         final_status.append(processStatus)
         final_output.append(out)
+
+        for name, infos in out.items():
+            infos = [infos] if not isinstance(infos, list) else infos
+            for info in infos:
+                location = info['location'][len('file://'):]
+                with bucket.files.open(info['basename'], 'w') as target:
+                    with open(location, 'rb') as source:
+                        target.write(source.read())
 
     if "basedir" not in kwargs:
         raise WorkflowException("Must provide 'basedir' in kwargs")
