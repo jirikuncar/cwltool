@@ -57,6 +57,17 @@ Remember, if co-installing multiple CWL implementations then you need to
 maintain which implementation ``cwl-runner`` points to via a symbolic file
 system link or `another facility <https://wiki.debian.org/DebianAlternatives>`_.
 
+Integration with Renga
+----------------------
+
+Make sure that you have a Renga platform running on http://localhost or you have
+an access to existing installation e.g. https://testing.datascience.ch.
+
+1. Login to obtain an access token: ``renga login``;
+2. Set-up environment variables by running ``eval $(renga env)`` in the shell
+   where you want to run the ``cwl-runner``;
+3. Run ``cwl-runner`` as usually.
+
 Running tests locally
 ---------------------
 
